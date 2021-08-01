@@ -1,6 +1,6 @@
 
 
-export default function ListItem(movie) {
+export default function ListItem(movie, deleteMovie) {
   const style = {
     display: "flex",
     justifyContent: "space-between",
@@ -22,7 +22,7 @@ export default function ListItem(movie) {
       <span style={flex1}>{movie.genre.name}</span>
       <span style={flex1}>{movie.numberInStock}</span>
       <span style={flex1}>{movie.dailyRentalRate}</span>
-      <span style={flex1}><button style={styleBtn}  className="btn btn-danger">Delete</button></span>
+      <span style={flex1}><button style={styleBtn}  className="btn btn-danger" onClick={()=>deleteMovie(movie._id)}>Delete</button></span>
       
     </li>
   );
