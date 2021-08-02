@@ -1,11 +1,15 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import * as MovieList from "../Data/fakeMovieService.js";
-import Like from "./Like";
+import Pagination from "./common/pagination";
+import Like from "./common/Like";
+import paginate from "../utils/paginate";
 class Movie extends Component {
   constructor() {
     super();
     this.state = {
       movies: MovieList.getMovies(),
+      currentPage: 1,
+      pageSize: 4,
     };
   }
   deleteMovie = (id) => {
@@ -13,53 +17,35 @@ class Movie extends Component {
     this.setState({ movies: MovieList.getMovies() });
   };
   toggleLike = (movie) => {
-    console.log(movie);
     const movies = this.state.movies.map((el) => {
       if (el._id === movie._id) {
         el.liked = !el.liked;
       }
       return el;
     });
-
     this.setState({ movies });
   };
 
+  handlePagination = (page) => {
+    if (page === "+") {
+      this.setState({
+        currentPage: this.state.currentPage + 1,
+      });
+    } else if (page === "-") {
+      this.setState({
+        currentPage: this.state.currentPage - 1,
+      });
+    } else {
+      this.setState({
+        currentPage: page,
+      });
+    }
+  };
   render() {
-    const listStyle = {
-      listStyle: "none",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-    };
-    const listItemStyle = {
-      borderTop: "2px solid gray",
-      borderBottom: "2px solid gray",
-      display: "flex",
-      justifyContent: "space-between",
-      flex: 1,
-      padding: "20px",
-    };
-    const flex1 = {
-      flex: 1,
-    };
+    const { currentPage, movies: allMovies, pageSize } = this.state;
+    const count = allMovies.length;
+    const movies = paginate(allMovies, currentPage, pageSize);
     return (
-      // <div className="container mt-3">
-      //   <p className="">
-      //     Showing {this.state.movies.length} movies in the database
-      //   </p>
-      //   <ul className="" style={listStyle}>
-      //     <li className="list-head" style={listItemStyle}>
-      //       <h3 style={flex1}>Title</h3>
-      //       <h3 style={flex1}>Genre</h3>
-      //       <h3 style={flex1}>Stock</h3>
-      //       <h3 style={flex1}>Rate</h3>
-      //       <h3 style={flex1}></h3>
-      //     </li>
-      //     {this.state.movies.map((movie) => {
-      //       return ListItem(movie, this.deleteMovie);
-      //     })}
-      //   </ul>
-      // </div>
       <React.Fragment>
         {this.state.movies.length !== 0 ? (
           <p>Showing {this.state.movies.length} movies in the database</p>
@@ -70,6 +56,7 @@ class Movie extends Component {
           <table className="table container">
             <thead>
               <tr>
+                <th>№</th>
                 <th>Title</th>
                 <th>Genre</th>
                 <th>Stock</th>
@@ -79,8 +66,11 @@ class Movie extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.movies.map((movie) => (
+              {movies.map((movie) => (
                 <tr key={movie._id}>
+                  <th>
+                    {allMovies.findIndex((el) => el._id === movie._id) + 1}
+                  </th>
                   <th>{movie.title}</th>
                   <th>{movie.genre.name}</th>
                   <th>{movie.numberInStock}</th>
@@ -88,7 +78,7 @@ class Movie extends Component {
                   <th>
                     <Like
                       toggleLike={() => this.toggleLike(movie)}
-                      liked={this.state.movies.liked}
+                      liked={movie.liked}
                     />
                   </th>
                   <th>
@@ -104,6 +94,12 @@ class Movie extends Component {
             </tbody>
           </table>
         ) : null}
+        <Pagination
+          pageSize={pageSize}
+          totalItems={count}
+          currentPage={currentPage}
+          handlePagination={this.handlePagination}
+        />
       </React.Fragment>
     );
   }

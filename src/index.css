@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.page-link{
+  cursor: pointer;
+}
+
+.table{min-height: 300px;}
