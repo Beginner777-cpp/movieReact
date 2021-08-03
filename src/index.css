@@ -11,8 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.page-link{
+
+.page-link {
   cursor: pointer;
 }
 
-.table{min-height: 300px;}
+.movie {
+  display: flex;
+margin: 50px;
+}
+
+.table {
+  min-height: 300px;
+}
+
+.list-group {
+  margin-right: 50px;
+}
+.content{
+  width: 75%;
+}
+
