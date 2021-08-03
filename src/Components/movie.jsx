@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as MovieList from "../Data/fakeMovieService.js";
+import * as GenreList from "../Data/fakeGenreService.js";
 import Pagination from "./common/pagination";
 import Like from "./common/Like";
 import paginate from "../utils/paginate";
@@ -8,11 +9,18 @@ class Movie extends Component {
   constructor() {
     super();
     this.state = {
-      movies: MovieList.getMovies(),
+      movies: [],
+      genres: [],
       currentPage: 1,
       pageSize: 4,
-      moviesByGenre: MovieList.getMovies(),
+      selectedGenre: { _id: "", name: "All Genres" }
     };
+  }
+  componentDidMount() {
+    this.setState({
+      movies: MovieList.getMovies(),
+      genres: [{ _id: "", name: "All Genres" }, ...GenreList.getGenres()],
+    });
   }
   deleteMovie = (id) => {
     MovieList.deleteMovie(id);
@@ -45,22 +53,30 @@ class Movie extends Component {
   };
   handleGenre = (genre) => {
     this.setState({
-      moviesByGenre: genre === "all"
-      ? this.state.movies
-      : this.state.movies.filter((movie) => movie.genre.name === genre)
-    }) 
+      currentPage: 1,
+      selectedGenre: genre,
+    });
   };
   render() {
-    const { currentPage, pageSize } = this.state;
-    const allMovies = this.state.moviesByGenre;
+    const { currentPage, pageSize, selectedGenre, genres } = this.state;
+    const allMovies =
+      selectedGenre && selectedGenre._id
+        ? this.state.movies.filter(
+            (movie) => movie.genre._id === selectedGenre._id
+          )
+        : this.state.movies;
     const count = allMovies.length;
     const movies = paginate(allMovies, currentPage, pageSize);
     return (
       <div className="movie container">
-        <List handleGenre={this.handleGenre} />
+        <List
+          handleGenre={this.handleGenre}
+          selectedGenre={selectedGenre}
+          genres={genres}
+        />
         <div className="content">
           {this.state.movies.length !== 0 ? (
-            <p>Showing {this.state.movies.length} movies in the database</p>
+            <p>Showing {allMovies.length} movies in the database</p>
           ) : (
             <p>No movies in the database</p>
           )}

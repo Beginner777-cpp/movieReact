@@ -1,15 +1,15 @@
-import * as Genres from "../../Data/fakeGenreService.js";
-const List = (props) => {
+const List = ({ genres, handleGenre, selectedGenre }) => {
+  // "list-group-item active"
+  console.log(selectedGenre);
   return (
     <ul className="list-group">
-      <li className="list-group-item active" onClick={()=>props.handleGenre('all')}>All movies</li>
-      {Genres.genres.map((genre, index) => (
+      {genres.map((genre) => (
         <li
-          key={index}
-          className="list-group-item"
+          key={genre._id}
+          className={selectedGenre._id === genre._id ? "list-group-item active" : "list-group-item"}
           aria-current="true"
           style={{ cursor: "pointer" }}
-          onClick={()=>props.handleGenre(genre.name)}
+          onClick={() => handleGenre(genre)}
         >
           {genre.name}
         </li>
