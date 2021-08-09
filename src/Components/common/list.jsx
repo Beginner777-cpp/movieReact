@@ -1,6 +1,5 @@
 const List = ({ genres, handleGenre, selectedGenre }) => {
   // "list-group-item active"
-  console.log(selectedGenre);
   return (
     <ul className="list-group">
       {genres.map((genre) => (
