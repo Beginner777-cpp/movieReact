@@ -65,7 +65,6 @@ class Movie extends Component {
       setColumnSort.type = setColumnSort.type === "asc" ? "desc" : "asc";
     }
     setColumnSort.name = name;
-    console.log(setColumnSort.type);
     this.setState({
       setColumnSort: setColumnSort,
     });
@@ -80,7 +79,7 @@ class Movie extends Component {
           )
         : this.state.movies;
     const count = allMovies.length;
-    const sortedMovies = _.sortBy(
+    const sortedMovies = _.orderBy(
       allMovies,
       [setColumnSort.name],
       [setColumnSort.type]
