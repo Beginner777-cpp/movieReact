@@ -15,7 +15,7 @@ class Movie extends Component {
       currentPage: 1,
       pageSize: 4,
       selectedGenre: { _id: "", name: "All Genres" },
-      setColumnSort: { name: "title", type: "asc" },
+      setColumnSort: { name: "", type: "asc" },
     };
   }
   componentDidMount() {
