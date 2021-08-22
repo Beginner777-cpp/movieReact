@@ -7,6 +7,7 @@ class TableBody extends Component {
     }
     return _.get(movie, column.path);
   };
+
   render() {
     const { movies, columns, allMovies } = this.props;
     return (
@@ -15,7 +16,9 @@ class TableBody extends Component {
           <tr key={movie._id}>
             <td>{allMovies.findIndex((el) => el._id === movie._id) + 1}</td>
             {columns.map((column) => (
-              <td key={column.path||column.key}>{this.getColumn(movie, column)}</td>
+              <td key={movie._id + (column.path || column.key)}>
+                {this.getColumn(movie, column)}
+              </td>
             ))}
           </tr>
         ))}
