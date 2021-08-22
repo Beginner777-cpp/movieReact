@@ -59,12 +59,7 @@ class Movie extends Component {
       selectedGenre: genre,
     });
   };
-  handleSort = (name) => {
-    const { setColumnSort } = this.state;
-    if (setColumnSort.name === name) {
-      setColumnSort.type = setColumnSort.type === "asc" ? "desc" : "asc";
-    }
-    setColumnSort.name = name;
+  handleSort = (setColumnSort) => {
     this.setState({
       setColumnSort: setColumnSort,
     });
@@ -105,6 +100,7 @@ class Movie extends Component {
               toggleLike={this.toggleLike}
               deleteMovie={this.deleteMovie}
               handleSort={this.handleSort}
+              setColumnSort = {setColumnSort}
             />
           ) : null}
           <Pagination
