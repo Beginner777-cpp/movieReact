@@ -1,6 +1,6 @@
-const Like = (props) => {
+const Like = ({toggleLike, liked}) => {
   let classes = "fa fa-heart";
-  if (!props.liked) {
+  if (!liked) {
     classes += "-o";
   } else {
     classes = "fa fa-heart";
@@ -9,7 +9,7 @@ const Like = (props) => {
     <i
       style={{ cursor: "pointer" }}
       className={classes}
-      onClick={props.toggleLike}
+      onClick={toggleLike}
     ></i>
   );
 };

@@ -15,7 +15,7 @@ class Movie extends Component {
       currentPage: 1,
       pageSize: 4,
       selectedGenre: { _id: "", name: "All Genres" },
-      setColumnSort: { name: "title", type: "desc" },
+      setColumnSort: { name: "", type: "asc" },
     };
   }
   componentDidMount() {
@@ -59,33 +59,35 @@ class Movie extends Component {
       selectedGenre: genre,
     });
   };
-  handleSort = (name) => {
-    const { setColumnSort } = this.state;
-    if (setColumnSort.name === name) {
-      setColumnSort.type = setColumnSort.type === "asc" ? "desc" : "asc";
-    }
-    setColumnSort.name = name;
-    console.log(setColumnSort.type);
+  handleSort = (setColumnSort) => {
     this.setState({
       setColumnSort: setColumnSort,
     });
   };
+  getPagedData = (allMovies, setColumnSort, currentPage, pageSize) => {
+    const count = allMovies.length;
+    const sortedMovies = _.orderBy(
+      allMovies,
+      [setColumnSort.name],
+      [setColumnSort.type]
+    );
+    const filteredMovie = paginate(sortedMovies, currentPage, pageSize);
+    return { count, filteredMovie };
+  };
   render() {
-    const { currentPage, pageSize, selectedGenre, genres, setColumnSort } =
-      this.state;
+    const { currentPage, pageSize, selectedGenre, genres, setColumnSort } = this.state;
     const allMovies =
       selectedGenre && selectedGenre._id
         ? this.state.movies.filter(
             (movie) => movie.genre._id === selectedGenre._id
           )
         : this.state.movies;
-    const count = allMovies.length;
-    const sortedMovies = _.sortBy(
+    const { count, filteredMovie } = this.getPagedData(
       allMovies,
-      [setColumnSort.name],
-      [setColumnSort.type]
+      setColumnSort,
+      currentPage,
+      pageSize
     );
-    const movies = paginate(sortedMovies, currentPage, pageSize);
     return (
       <div className="movie container">
         <List
@@ -101,11 +103,12 @@ class Movie extends Component {
           )}
           {this.state.movies.length !== 0 ? (
             <MovieTable
-              movies={movies}
+              movies={filteredMovie}
               allMovies={allMovies}
               toggleLike={this.toggleLike}
               deleteMovie={this.deleteMovie}
               handleSort={this.handleSort}
+              setColumnSort={setColumnSort}
             />
           ) : null}
           <Pagination
