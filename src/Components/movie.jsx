@@ -75,7 +75,8 @@ class Movie extends Component {
     return { count, filteredMovie };
   };
   render() {
-    const { currentPage, pageSize, selectedGenre, genres, setColumnSort } = this.state;
+    const { currentPage, pageSize, selectedGenre, genres, setColumnSort } =
+      this.state;
     const allMovies =
       selectedGenre && selectedGenre._id
         ? this.state.movies.filter(
@@ -89,36 +90,38 @@ class Movie extends Component {
       pageSize
     );
     return (
-      <div className="movie container">
-        <List
-          handleGenre={this.handleGenre}
-          selectedGenre={selectedGenre}
-          genres={genres}
-        />
-        <div className="content">
-          {this.state.movies.length !== 0 ? (
-            <p>Showing {allMovies.length} movies in the database</p>
-          ) : (
-            <p>No movies in the database</p>
-          )}
-          {this.state.movies.length !== 0 ? (
-            <MovieTable
-              movies={filteredMovie}
-              allMovies={allMovies}
-              toggleLike={this.toggleLike}
-              deleteMovie={this.deleteMovie}
-              handleSort={this.handleSort}
-              setColumnSort={setColumnSort}
-            />
-          ) : null}
-          <Pagination
-            pageSize={pageSize}
-            totalItems={count}
-            currentPage={currentPage}
-            handlePagination={this.handlePagination}
+      <React.Fragment>
+        <div className="movie container">
+          <List
+            handleGenre={this.handleGenre}
+            selectedGenre={selectedGenre}
+            genres={genres}
           />
+          <div className="content">
+            {this.state.movies.length !== 0 ? (
+              <p>Showing {allMovies.length} movies in the database</p>
+            ) : (
+              <p>No movies in the database</p>
+            )}
+            {this.state.movies.length !== 0 ? (
+              <MovieTable
+                movies={filteredMovie}
+                allMovies={allMovies}
+                toggleLike={this.toggleLike}
+                deleteMovie={this.deleteMovie}
+                handleSort={this.handleSort}
+                setColumnSort={setColumnSort}
+              />
+            ) : null}
+            <Pagination
+              pageSize={pageSize}
+              totalItems={count}
+              currentPage={currentPage}
+              handlePagination={this.handlePagination}
+            />
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

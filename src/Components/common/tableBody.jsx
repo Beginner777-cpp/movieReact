@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 class TableBody extends Component {
   getColumn = (movie, column) => {
@@ -17,7 +18,13 @@ class TableBody extends Component {
             <td>{allMovies.findIndex((el) => el._id === movie._id) + 1}</td>
             {columns.map((column) => (
               <td key={movie._id + (column.path || column.key)}>
-                {this.getColumn(movie, column)}
+                {column.path === "title" ? (
+                  <Link to={"/movies/" + movie._id}>
+                    {this.getColumn(movie, column)}
+                  </Link>
+                ) : (
+                  this.getColumn(movie, column)
+                )}
               </td>
             ))}
           </tr>
