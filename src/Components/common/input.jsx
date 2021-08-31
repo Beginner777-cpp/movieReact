@@ -11,7 +11,6 @@ const Input = ({ name, label, errors, ...rest}) => {
         id={name}
         name={name}
         className="form-control"
-        autoFocus
       />
       {errors && <div className="alert alert-danger">{errors}</div>}
     </div>
