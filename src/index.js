@@ -1,29 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import {BrowserRouter} from 'react-router-dom';
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
-import Navbar from "./Components/navbar";
-import Movie from "./Components/movie";
-import Rentals from "./Components/common/rentals";
-import Customers from "./Components/common/customers";
-import NotFound from './Components/common/notFound';
-import MovieId from './Components/common/movieId';
+import App from "./App.js";
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-    <Navbar/>
-      <Switch>
-        <Route path="/movies/:id" component={MovieId} />
-        <Route path="/customers" component={Customers} />
-        <Route path="/rentals" component={Rentals} />
-        <Route path="/movies" component={Movie} />
-        <Route path="/not-found" component={NotFound} />
-        <Redirect exact from="/" to="/movies" />
-        <Redirect to="/not-found"/>
-      </Switch>
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

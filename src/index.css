@@ -35,3 +35,9 @@ margin: 50px;
 .clickable{
   cursor: pointer;
 }
+
+.form{
+  width: 60%;
+  margin: auto;
+  padding-top: 50px;
+}
