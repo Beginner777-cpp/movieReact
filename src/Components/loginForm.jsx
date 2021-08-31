@@ -1,44 +1,34 @@
-import React, { Component } from "react";
-
-class LoginForm extends Component {
+import React from "react";
+import Joi from "joi-browser";
+import Form from "./common/form";
+class LoginForm extends Form {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      account: { username: "", password: "" },
+      errors: {
+        username: "",
+        password: "",
+      },
+    };
+    this.schema = {
+      username: Joi.string().required().label("Username"),
+      password: Joi.string().required().label("Password"),
+    };
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Submitted");
-  };
+  componentDidMount() {
+    // this.username.current.focus();
+  }
+  
+  doSubmit = ()=>{
+    console.log('Submitted');
+  }
   render() {
     return (
-      <form className="form" onSubmit={this.handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            UserName
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-          />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="exampleInputPassword1"
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
+      <form className="form" onSubmit={this.handleSubmit} method="GET">
+        {this.renderInput('username', 'Username')}
+        {this.renderInput('password', 'Password', 'password')}
+        {this.renderBtn()}
       </form>
     );
   }
