@@ -4,6 +4,7 @@ import {BrowserRouter} from 'react-router-dom';
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.bundle.js";
 import "font-awesome/css/font-awesome.min.css";
 import App from "./App.js";
 

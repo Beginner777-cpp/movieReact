@@ -6,7 +6,7 @@ class Registration extends Form {
   constructor(props) {
     super(props);
     this.state = {
-      account: { username: "", password: "", name: "" },
+      data: { username: "", password: "", name: "" },
       errors: {
         username: "",
         password: "",

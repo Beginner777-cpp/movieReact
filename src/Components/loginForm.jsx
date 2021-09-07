@@ -5,7 +5,7 @@ class LoginForm extends Form {
   constructor(props) {
     super(props);
     this.state = {
-      account: { username: "", password: "" },
+      data: { username: "", password: "" },
       errors: {
         username: "",
         password: "",

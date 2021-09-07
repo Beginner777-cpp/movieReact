@@ -23,7 +23,6 @@ class TableHeader extends Component {
     return (
       <thead>
         <tr>
-          <th>№</th>
           {columns.map((column) => (
             <th className="clickable"
               key={column.path || column.key}

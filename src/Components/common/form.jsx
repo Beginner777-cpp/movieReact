@@ -5,7 +5,7 @@ class Form extends Component {
   validate = () => {
     const errors = {};
     const options = { abortEarly: false };
-    const result = Joi.validate(this.state.account, this.schema, options);
+    const result = Joi.validate(this.state.data, this.schema, options);
     if (result.error) {
       for (const error of result.error.details) {
         if (error.message) {
@@ -13,6 +13,7 @@ class Form extends Component {
         }
       }
     }
+    console.log(errors);
     return Object.keys(errors).length === 0 ? null : errors;
   };
   handleSubmit = (e) => {
@@ -42,11 +43,11 @@ class Form extends Component {
     } else {
       delete errors[currentTarget.name];
     }
-    const account = {
-      ...this.state.account,
+    const data = {
+      ...this.state.data,
     };
-    account[currentTarget.name] = currentTarget.value;
-    this.setState({ account, errors });
+    data[currentTarget.name] = currentTarget.value;
+    this.setState({ data, errors });
   };
 
   renderInput = (name, label, type = "text", value = "") => {
@@ -55,7 +56,7 @@ class Form extends Component {
         name={name}
         type={type}
         onChange={this.handleChange}
-        value={this.state.account[name]}
+        value={this.state.data[name]}
         label={label}
         errors={this.state.errors[name]}
       />
@@ -72,7 +73,7 @@ class Form extends Component {
           name={name}
           className="form-select"
           aria-label="Default select example"
-          value={this.state.account[name]}
+          value={this.state.data[name]}
           onChange={this.handleChange}
         >
           <option value=""></option>

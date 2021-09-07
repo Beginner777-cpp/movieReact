@@ -3,7 +3,7 @@ import Like from "./common/like";
 import Table from "./common/table";
 class MovieTable extends Component {
   render() {
-    const { movies, allMovies, toggleLike, deleteMovie, setColumnSort, handleSort } =
+    const { movies, toggleLike, deleteMovie, setColumnSort, handleSort } =
       this.props;
     const columns = [
       { path: "title", label: "Title" },
@@ -29,7 +29,7 @@ class MovieTable extends Component {
       },
     ];
     return (
-      <Table columns = {columns} movies={movies} allMovies={allMovies} setColumnSort={setColumnSort} handleSort={handleSort}/>
+      <Table columns = {columns} movies={movies} setColumnSort={setColumnSort} handleSort={handleSort}/>
     );
   }
 }

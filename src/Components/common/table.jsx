@@ -1,7 +1,7 @@
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 
-const Table = ({handleSort, setColumnSort, columns, movies, allMovies}) => {
+const Table = ({ handleSort, setColumnSort, columns, movies }) => {
   return (
     <table className="table">
       <TableHeader
@@ -9,7 +9,7 @@ const Table = ({handleSort, setColumnSort, columns, movies, allMovies}) => {
         setColumnSort={setColumnSort}
         columns={columns}
       />
-      <TableBody columns={columns} movies={movies} allMovies={allMovies} />
+      <TableBody columns={columns} movies={movies} />
     </table>
   );
 };

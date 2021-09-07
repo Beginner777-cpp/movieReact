@@ -10,12 +10,11 @@ class TableBody extends Component {
   };
 
   render() {
-    const { movies, columns, allMovies } = this.props;
+    const { movies, columns } = this.props;
     return (
       <tbody>
         {movies.map((movie) => (
           <tr key={movie._id}>
-            <td>{allMovies.findIndex((el) => el._id === movie._id) + 1}</td>
             {columns.map((column) => (
               <td key={movie._id + (column.path || column.key)}>
                 {column.path === "title" ? (

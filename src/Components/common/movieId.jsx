@@ -1,9 +1,9 @@
 import React from "react";
-import New from "../new";
+import MovieForm from "../movieForm";
 const MovieId = (props) => {
   return (
     <div>
-      <New id={props.match.params.id} {...props}/>
+      <MovieForm id={props.match.params.id} {...props} />
     </div>
   );
 };
