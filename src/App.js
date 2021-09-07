@@ -10,11 +10,13 @@ import NotFound from "./Components/common/notFound";
 import MovieId from "./Components/common/movieId";
 import LoginForm from "./Components/loginForm";
 import Registration from "./Components/registration";
+import New from "./Components/new";
 function App() {
   return (
     <React.Fragment>
       <Navbar />
       <Switch>
+        <Route path="/movies/new" component={New} />
         <Route path="/movies/:id" component={MovieId} />
         <Route path="/customers" component={Customers} />
         <Route path="/rentals" component={Rentals} />

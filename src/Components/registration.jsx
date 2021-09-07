@@ -13,14 +13,20 @@ class Registration extends Form {
         name: "",
       },
     };
+    this.emailOptions = {
+      minDomainSegments: 2,
+    };
     this.schema = {
-      username: Joi.string().required().label("Username"),
-      password: Joi.string().required().label("Password"),
+      username: Joi.string()
+        .required()
+        .email(this.emailOptions)
+        .label("Username"),
+      password: Joi.string().min(5).required().label("Password"),
       name: Joi.string().required().label("Name"),
     };
   }
   doSubmit = () => {
-    console.log("Submitted");
+    console.log("Registered");
   };
   render() {
     return (

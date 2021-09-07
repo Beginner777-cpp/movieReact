@@ -13,13 +13,11 @@ class Form extends Component {
         }
       }
     }
-
     return Object.keys(errors).length === 0 ? null : errors;
   };
   handleSubmit = (e) => {
     e.preventDefault();
     const errors = this.validate();
-    console.log(errors);
     this.setState({ errors: errors || {} });
     if (errors) {
       return;
@@ -37,14 +35,13 @@ class Form extends Component {
   };
   handleChange = ({ currentTarget }) => {
     const errors = { ...this.state.errors };
-
     const errorMessage = this.validateProperty(currentTarget);
+
     if (errorMessage) {
       errors[currentTarget.name] = errorMessage;
     } else {
       delete errors[currentTarget.name];
     }
-
     const account = {
       ...this.state.account,
     };
@@ -52,7 +49,7 @@ class Form extends Component {
     this.setState({ account, errors });
   };
 
-  renderInput = (name, label, type="text") => {
+  renderInput = (name, label, type = "text", value = "") => {
     return (
       <Input
         name={name}
@@ -62,6 +59,33 @@ class Form extends Component {
         label={label}
         errors={this.state.errors[name]}
       />
+    );
+  };
+  renderSelect = (name, label, options, value = "") => {
+    return (
+      <div className="mb-3">
+        <label htmlFor={name} className="form-label">
+          {label}
+        </label>
+        <select
+          id={name}
+          name={name}
+          className="form-select"
+          aria-label="Default select example"
+          value={this.state.account[name]}
+          onChange={this.handleChange}
+        >
+          <option value=""></option>
+          {options.map((option) => (
+            <option value={option.name} key={option._id}>
+              {option.name}
+            </option>
+          ))}
+        </select>
+        {this.state.errors[name] && (
+          <div className="alert alert-danger">{this.state.errors[name]}</div>
+        )}
+      </div>
     );
   };
   renderBtn = () => {

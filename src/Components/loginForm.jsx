@@ -21,7 +21,7 @@ class LoginForm extends Form {
   }
   
   doSubmit = ()=>{
-    console.log('Submitted');
+    console.log('Logged in');
   }
   render() {
     return (

@@ -1,14 +1,9 @@
 import React from "react";
-
+import New from "../new";
 const MovieId = (props) => {
-  const onSave = () => {
-      console.log('save movie', props);
-        props.history.replace('/movies');
-  };
   return (
     <div>
-      <h1>{props.match.params.id}</h1>
-      <button onClick={onSave}>Save</button>
+      <New id={props.match.params.id} {...props}/>
     </div>
   );
 };

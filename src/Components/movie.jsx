@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import * as MovieList from "../Data/fakeMovieService.js";
 import * as GenreList from "../Data/fakeGenreService.js";
 import MovieTable from "./moviesTable.jsx";
@@ -74,6 +75,10 @@ class Movie extends Component {
     const filteredMovie = paginate(sortedMovies, currentPage, pageSize);
     return { count, filteredMovie };
   };
+  addMovie = () => {
+    console.log("new movie");
+    return;
+  };
   render() {
     const { currentPage, pageSize, selectedGenre, genres, setColumnSort } =
       this.state;
@@ -98,6 +103,8 @@ class Movie extends Component {
             genres={genres}
           />
           <div className="content">
+            <Link to="movies/new" className="btn btn-primary">New Movie</Link>
+
             {this.state.movies.length !== 0 ? (
               <p>Showing {allMovies.length} movies in the database</p>
             ) : (
