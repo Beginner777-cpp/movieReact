@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import * as MovieList from "../Data/fakeMovieService.js";
-import * as GenreList from "../Data/fakeGenreService.js";
+import getGenres from "../Data/genreService.js";
 import MovieTable from "./moviesTable.jsx";
 import Pagination from "./common/pagination";
 import paginate from "../utils/paginate";
 import List from "./common/list";
 import SearchBox from "./searchBox";
 import _ from "lodash";
+console.log(getGenres());
 class Movie extends Component {
   constructor() {
     super();
@@ -26,7 +27,7 @@ class Movie extends Component {
     this.setState({
       movies: MovieList.getMovies(),
       movieSearch: MovieList.getMovies(),
-      genres: [{ _id: "", name: "All Genres" }, ...GenreList.getGenres()],
+      genres: [{ _id: "", name: "All Genres" }, getGenres()],
     });
   }
   deleteMovie = (id) => {
