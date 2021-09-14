@@ -1,8 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { getGenres } from "../Data/fakeGenreService";
-import { saveMovie, getMovie } from "../Data/fakeMovieService";
+import { saveMovie, getMovie } from "../services/movieService";
+import getGenres from "../services/genreService.js";
 class MovieForm extends Form {
   constructor(props) {
     super(props);
@@ -17,8 +17,8 @@ class MovieForm extends Form {
       },
     };
     this.schema = {
-      _id: Joi.string().allow(''),
-      title: Joi.string().required().label("Title"),
+      _id: Joi.string().allow(""),
+      title: Joi.string().required().label("Title").min(5),
       genre: Joi.string().required().label("Genre"),
       numberInStock: Joi.number()
         .required()
@@ -28,12 +28,18 @@ class MovieForm extends Form {
         .label("Number in Stock"),
       rate: Joi.number().required().min(0).max(10).label("Rate"),
     };
+    this.genres = [];
   }
-  componentDidMount() {
+  async populateGenres() {
+    const { data } = await getGenres();
+    this.genres = data;
+  }
+  async populateMovies() {
     let movieId = this.props.id;
+    this.movieId = movieId;
     let movie = {};
     if (movieId) {
-      let movieDb = getMovie(movieId);
+      let movieDb = await getMovie(movieId);
       if (!movieDb) {
         this.props.history.replace("/not-found");
         return;
@@ -43,24 +49,26 @@ class MovieForm extends Form {
       movie.genre = movieDb.genre.name;
       movie.numberInStock = movieDb.numberInStock;
       movie.rate = movieDb.dailyRentalRate;
-
-      console.log(movie);
       this.setState({ data: movie });
     }
   }
-  doSubmit = () => {
+  async componentDidMount() {
+    this.populateGenres();
+    this.populateMovies();
+  }
+  doSubmit = async () => {
     let newMovie = {
       _id: this.movieId,
       title: this.state.data.title,
       genre: {
-        _id: getGenres().filter((g) => g.name === this.state.data.genre)[0]._id,
+        _id: this.genres.filter((g) => g.name === this.state.data.genre)[0]._id,
         name: this.state.data.genre,
       },
       numberInStock: this.state.data.numberInStock,
       dailyRentalRate: this.state.data.rate,
       liked: false,
     };
-    let result = saveMovie(newMovie);
+    let result = await saveMovie(newMovie);
     this.props.history.replace("/movies");
     return result;
   };
@@ -69,7 +77,7 @@ class MovieForm extends Form {
       <form className="form" onSubmit={this.handleSubmit} method="GET">
         <h1>Movie Form</h1>
         {this.renderInput("title", "Title")}
-        {this.renderSelect("genre", "Genre", getGenres())}
+        {this.renderSelect("genre", "Genre", this.genres)}
         {this.renderInput("numberInStock", "Number in Stock", "number")}
         {this.renderInput("rate", "Rate", "number")}
         {this.renderBtn()}

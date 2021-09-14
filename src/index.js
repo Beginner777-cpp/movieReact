@@ -7,6 +7,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "font-awesome/css/font-awesome.min.css";
 import App from "./App.js";
+import logger from './services/logService';
+
+logger.init();
 
 ReactDOM.render(
   <React.StrictMode>

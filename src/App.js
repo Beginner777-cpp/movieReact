@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Route, Redirect, Switch } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "./App.css";
 import Navbar from "./Components/navbar";
 import Movie from "./Components/movie";
@@ -11,9 +12,13 @@ import MovieId from "./Components/common/movieId";
 import LoginForm from "./Components/loginForm";
 import Registration from "./Components/registration";
 import MovieForm from "./Components/movieForm";
+
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <React.Fragment>
+      <ToastContainer />
       <Navbar />
       <Switch>
         <Route path="/movies/new" component={MovieForm} />

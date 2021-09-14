@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import * as MovieList from "../Data/fakeMovieService.js";
-import getGenres from "../Data/genreService.js";
+import * as movieService from "../services/movieService.js";
+import getGenres from "../services/genreService.js";
 import MovieTable from "./moviesTable.jsx";
 import Pagination from "./common/pagination";
 import paginate from "../utils/paginate";
 import List from "./common/list";
 import SearchBox from "./searchBox";
 import _ from "lodash";
-console.log(getGenres());
+import { toast } from "react-toastify";
+// import { genres } from './../Data/fakeGenreService';
+
 class Movie extends Component {
   constructor() {
     super();
@@ -23,16 +25,28 @@ class Movie extends Component {
       querySearch: "",
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
+    const { data: genres } = await getGenres();
+    const { data: movies } = await movieService.getMovies();
     this.setState({
-      movies: MovieList.getMovies(),
-      movieSearch: MovieList.getMovies(),
-      genres: [{ _id: "", name: "All Genres" }, getGenres()],
+      movies: movies,
+      movieSearch: movies,
+      genres: [{ _id: "", name: "All Genres" }, ...genres],
     });
   }
-  deleteMovie = (id) => {
-    MovieList.deleteMovie(id);
-    this.setState({ movies: MovieList.getMovies() });
+  deleteMovie = async (id) => {
+    // MovieList.deleteMovie(id);
+    // this.setState({ movies:  });
+    const originalMovies = this.state.movies;
+    const restMovies = this.state.movies.filter((m) => m._id !== id);
+    this.setState({ movies: restMovies, movieSearch: restMovies });
+    try {
+      await movieService.deleteMovie(id);
+    } catch (error) {
+      this.setState({ movies: originalMovies, movieSearch: originalMovies });
+      toast.error("Movie is already deleted, update the page");
+    }
+    // this.setState({ movies: restMovies, movieSearch: restMovies });
   };
   toggleLike = (movie) => {
     const movies = this.state.movies.map((el) => {
@@ -65,7 +79,7 @@ class Movie extends Component {
       movieSearch: this.state.movies,
       currentPage: 1,
       selectedGenre: genre,
-      querySearch: '',
+      querySearch: "",
     });
   };
   handleSort = (setColumnSort) => {

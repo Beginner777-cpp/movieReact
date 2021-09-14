@@ -13,7 +13,6 @@ class Form extends Component {
         }
       }
     }
-    console.log(errors);
     return Object.keys(errors).length === 0 ? null : errors;
   };
   handleSubmit = (e) => {
