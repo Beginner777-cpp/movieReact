@@ -22,7 +22,7 @@ class Form extends Component {
     if (errors) {
       return;
     }
-    this.doSubmit();
+    this.doSubmit(this.state.data);
   };
 
   validateProperty = ({ name, value }) => {
@@ -88,14 +88,14 @@ class Form extends Component {
       </div>
     );
   };
-  renderBtn = () => {
+  renderBtn = (text="Submit") => {
     return (
       <button
         type="submit"
         className="btn btn-primary"
         disabled={this.validate()}
       >
-        Submit
+        {text}
       </button>
     );
   };
