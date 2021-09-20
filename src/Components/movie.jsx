@@ -12,8 +12,8 @@ import { toast } from "react-toastify";
 // import { genres } from './../Data/fakeGenreService';
 
 class Movie extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       movies: [],
       genres: [],
@@ -44,7 +44,9 @@ class Movie extends Component {
       await movieService.deleteMovie(id);
     } catch (error) {
       this.setState({ movies: originalMovies, movieSearch: originalMovies });
-      toast.error("Movie is already deleted, update the page");
+      toast.error(
+        error.response.data + ", may be it has been already deleted!"
+      );
     }
     // this.setState({ movies: restMovies, movieSearch: restMovies });
   };
@@ -135,6 +137,7 @@ class Movie extends Component {
       currentPage,
       pageSize
     );
+    const { user } = this.props;
     return (
       <React.Fragment>
         <div className="movie container">
@@ -144,9 +147,11 @@ class Movie extends Component {
             genres={genres}
           />
           <div className="content">
-            <Link to="movies/new" className="btn btn-primary">
-              New Movie
-            </Link>
+            {user && (
+              <Link to="movies/new" className="btn btn-primary">
+                New Movie
+              </Link>
+            )}
 
             {movieSearch.length !== 0 ? (
               <p>Showing {movieSearch.length} movies in the database</p>
