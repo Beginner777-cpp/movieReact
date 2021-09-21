@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Like from "./common/like";
 import Table from "./common/table";
+import { getUser } from "../services/authService";
 class MovieTable extends Component {
   render() {
     const { movies, toggleLike, deleteMovie, setColumnSort, handleSort } =
@@ -16,7 +17,9 @@ class MovieTable extends Component {
           <Like toggleLike={() => toggleLike(movie)} liked={movie.liked} />
         ),
       },
-      {
+    ];
+    if (getUser() && getUser().isAdmin) {
+      columns.push({
         key: "delete",
         content: (movie) => (
           <button
@@ -26,10 +29,15 @@ class MovieTable extends Component {
             Delete
           </button>
         ),
-      },
-    ];
+      });
+    }
     return (
-      <Table columns = {columns} movies={movies} setColumnSort={setColumnSort} handleSort={handleSort}/>
+      <Table
+        columns={columns}
+        movies={movies}
+        setColumnSort={setColumnSort}
+        handleSort={handleSort}
+      />
     );
   }
 }
